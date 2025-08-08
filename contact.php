@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Configuration
 $to_email = 'contacto@reciclajesjbn.cl';
 $from_email = 'noreply@reciclajesjbn.cl';
-$subject_prefix = '[Reciclaje JBN] Nueva consulta desde el sitio web';
+$subject_prefix = '[Reciclajes JBN] Nueva consulta desde el sitio web';
 
 // Validate and sanitize input
 function sanitize_input($data) {
@@ -83,7 +83,7 @@ if (!empty($errors)) {
 $email_subject = $subject_prefix . ' - ' . $data['material'];
 
 $email_body = "
-Nueva consulta recibida desde el sitio web de Reciclaje JBN
+Nueva consulta recibida desde el sitio web de Reciclajes JBN
 
 DATOS DEL CLIENTE:
 ==================
@@ -170,7 +170,7 @@ if ($mail_sent) {
 }
 
 // Auto-response email to the client
-$auto_response_subject = 'Confirmación de recepción - Reciclaje JBN';
+$auto_response_subject = 'Confirmación de recepción - Reciclajes JBN';
 $auto_response_body = "
 Estimado/a {$data['nombre']},
 
@@ -190,10 +190,10 @@ Para consultas urgentes, puedes contactarnos directamente:
 - WhatsApp: https://wa.me/56971204381
 - Email: contacto@reciclajesjbn.cl
 
-Gracias por confiar en Reciclaje JBN.
+Gracias por confiar en Reciclajes JBN.
 
 Saludos cordiales,
-Equipo Reciclaje JBN
+Equipo Reciclajes JBN
 \"Retiramos y reciclamos el material excedente\"
 ";
 

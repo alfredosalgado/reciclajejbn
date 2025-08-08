@@ -336,15 +336,15 @@ body {
 
 /* Precios Section */
 .precios {
-    padding: 80px 0;
+    padding: 60px 0;
     background: var(--white);
 }
 
 .precios-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .precio-category {
@@ -352,31 +352,33 @@ body {
     border-radius: 15px;
     overflow: hidden;
     box-shadow: var(--shadow);
+    border: 2px solid var(--primary-color);
     transition: var(--transition);
 }
 
 .precio-category:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
+    border-color: var(--secondary-color);
 }
 
 .precio-category h3 {
     background: var(--primary-color);
     color: var(--white);
-    padding: 1.5rem;
+    padding: 1rem;
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
 }
 
 .precio-table {
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 .precio-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -387,6 +389,7 @@ body {
 .precio-row span:first-child {
     color: var(--text-dark);
     font-weight: 500;
+    font-size: 0.9rem;
 }
 
 .precio-row span:last-child {
@@ -406,6 +409,302 @@ body {
 .precio-note p {
     color: #856404;
     margin: 0;
+}
+
+/* Responsive para materiales */
+@media (max-width: 1024px) {
+    .precios-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+/* Galería Section */
+.galeria {
+    padding: 80px 0;
+    background: var(--light-bg);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Carousel Styles */
+.carousel-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: var(--shadow-lg);
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    will-change: transform;
+}
+
+.carousel-slide {
+    min-width: 20%;
+    box-sizing: border-box;
+    padding: 0 5px;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel-slide img:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Carousel Navigation Buttons */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.carousel-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn-prev {
+    left: 20px;
+}
+
+.carousel-btn-next {
+    right: 20px;
+}
+
+/* Carousel Indicators */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ddd;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.indicator.active {
+    background: var(--primary-color);
+}
+
+.indicator:hover {
+    background: var(--secondary-color);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+.modal-content img {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.close:hover {
+    color: var(--secondary-color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive Design for Gallery */
+@media (max-width: 1024px) {
+    .carousel-slide {
+        min-width: 25%;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .carousel-btn-prev {
+        left: 10px;
+    }
+    
+    .carousel-btn-next {
+        right: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-slide {
+        min-width: 50%;
+    }
+    
+    .carousel-slide img {
+        height: 250px;
+    }
+    
+    .galeria {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-slide {
+        min-width: 100%;
+    }
+    
+    .carousel-slide img {
+        height: 200px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .precios-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .precios {
+        padding: 40px 0;
+    }
+}
+
+/* Mapa Section */
+.mapa-container {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.mapa-container h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.mapa-embed {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.mapa-embed iframe {
+    border-radius: 15px;
+}
+
+/* Mapa pequeño en contacto */
+.mapa-container-small {
+    margin-top: 2rem;
+}
+
+.mapa-container-small h4 {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.mapa-embed-small {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 3px solid var(--primary-color);
+    background: var(--primary-color);
+    padding: 3px;
+    transition: all 0.3s ease;
+}
+
+.mapa-embed-small:hover {
+    box-shadow: 0 8px 25px rgba(45, 90, 39, 0.3);
+    transform: translateY(-2px);
+}
+
+.mapa-embed-small iframe {
+    border-radius: 12px;
+    border: none;
+    display: block;
 }
 
 /* Nosotros Section */
@@ -730,6 +1029,10 @@ body {
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
+    }
+
+    .footer-social {
+        justify-content: center;
     }
 
     .whatsapp-float {

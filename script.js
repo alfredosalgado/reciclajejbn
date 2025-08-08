@@ -314,3 +314,188 @@ const debouncedScrollHandler = debounce(() => {
     // Scroll-based animations or effects can go here
 }, 10);
 
+window.addEventListener('scroll', debouncedScrollHandler);
+
+// Gallery Carousel Functionality
+let currentSlideIndex = 0;
+const totalSlides = 30; // Total number of images
+
+// Function to get current slides to show based on screen size
+function getSlidesToShow() {
+    if (window.innerWidth <= 480) {
+        return 1; // Mobile: 1 image
+    } else if (window.innerWidth <= 768) {
+        return 2; // Tablet: 2 images
+    } else if (window.innerWidth <= 1024) {
+        return 4; // Small desktop: 4 images
+    } else {
+        return 5; // Large desktop: 5 images
+    }
+}
+
+// Function to get max slide index based on current screen size
+function getMaxSlideIndex() {
+    const slidesToShow = getSlidesToShow();
+    return Math.ceil(totalSlides / slidesToShow) - 1;
+}
+
+function moveCarousel(direction) {
+    const track = document.getElementById('carouselTrack');
+    if (!track) return;
+    
+    const maxSlideIndex = getMaxSlideIndex();
+    currentSlideIndex += direction;
+    
+    // Loop around if we go past the boundaries
+    if (currentSlideIndex > maxSlideIndex) {
+        currentSlideIndex = 0;
+    } else if (currentSlideIndex < 0) {
+        currentSlideIndex = maxSlideIndex;
+    }
+    
+    const translateX = -(currentSlideIndex * 100);
+    track.style.transform = `translateX(${translateX}%)`;
+    
+    updateIndicators();
+}
+
+function currentSlide(slideIndex) {
+    const track = document.getElementById('carouselTrack');
+    if (!track) return;
+    
+    const maxSlideIndex = getMaxSlideIndex();
+    currentSlideIndex = Math.min(slideIndex - 1, maxSlideIndex);
+    const translateX = -(currentSlideIndex * 100);
+    track.style.transform = `translateX(${translateX}%)`;
+    
+    updateIndicators();
+}
+
+function updateIndicators() {
+    const indicatorsContainer = document.querySelector('.carousel-indicators');
+    if (!indicatorsContainer) return;
+    
+    const maxSlideIndex = getMaxSlideIndex();
+    const totalIndicators = maxSlideIndex + 1;
+    
+    // Clear existing indicators
+    indicatorsContainer.innerHTML = '';
+    
+    // Create new indicators based on current screen size
+    for (let i = 0; i < totalIndicators; i++) {
+        const indicator = document.createElement('span');
+        indicator.className = `indicator ${i === currentSlideIndex ? 'active' : ''}`;
+        indicator.onclick = () => currentSlide(i + 1);
+        indicatorsContainer.appendChild(indicator);
+    }
+}
+
+// Auto-play carousel
+let autoPlayInterval;
+
+function startAutoPlay() {
+    autoPlayInterval = setInterval(() => {
+        moveCarousel(1);
+    }, 4000); // Change slide every 4 seconds
+}
+
+function stopAutoPlay() {
+    clearInterval(autoPlayInterval);
+}
+
+// Modal functionality
+function openModal(imageSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    
+    if (modal && modalImage) {
+        modalImage.src = imageSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function closeModal() {
+    const modal = document.getElementById('imageModal');
+    
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+}
+
+// Close modal when clicking outside the image
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('imageModal');
+    
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
+    
+    // Start carousel auto-play when page loads
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (carouselContainer) {
+        startAutoPlay();
+        
+        // Pause auto-play on hover
+        carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+        carouselContainer.addEventListener('mouseleave', startAutoPlay);
+    }
+    
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let endX = 0;
+    
+    if (carouselContainer) {
+        carouselContainer.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+        });
+        
+        carouselContainer.addEventListener('touchend', function(e) {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+    }
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = startX - endX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe left - next slide
+                moveCarousel(1);
+            } else {
+                // Swipe right - previous slide
+                moveCarousel(-1);
+            }
+        }
+    }
+    
+    // Handle window resize to update carousel responsively
+    window.addEventListener('resize', function() {
+        // Reset to first slide when screen size changes
+        currentSlideIndex = 0;
+        const track = document.getElementById('carouselTrack');
+        if (track) {
+            track.style.transform = 'translateX(0%)';
+        }
+        // Update indicators for new screen size
+        updateIndicators();
+    });
+    
+    // Initialize indicators on page load
+    updateIndicators();
+});
+
